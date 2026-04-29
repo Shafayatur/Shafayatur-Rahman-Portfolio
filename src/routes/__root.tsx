@@ -6,7 +6,7 @@ export const Route = createRootRoute({
     meta: [
       { charSet: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-      { title: 'Data Analyst & AI Automation Engineer' },
+      { title: 'Shafayatur Rahman' },
       {
         name: 'description',
         content:
