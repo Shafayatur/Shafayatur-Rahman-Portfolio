@@ -5,11 +5,10 @@ import { ChevronDown } from 'lucide-react'
 import type { About } from '@/lib/db'
 
 const ROLES = [
-  'AI Engineer',
-  'ML Developer',
-  'Computer Vision Specialist',
-  'Full-Stack Developer',
-  'Open Source Contributor',
+  'Data Analyst',
+  'AI & Automation Engineer',
+  'Machine Learning Enthusiast',
+  'AI-Powered Web Developer'
 ]
 
 function useTypewriter(words: string[], speed = 80, pause = 2000) {

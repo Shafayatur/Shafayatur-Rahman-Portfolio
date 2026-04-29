@@ -6,11 +6,11 @@ export const Route = createRootRoute({
     meta: [
       { charSet: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-      { title: 'Alex Chen — AI Engineer & Developer' },
+      { title: 'Data Analyst & AI Automation Engineer' },
       {
         name: 'description',
         content:
-          'AI Engineer and Full-Stack Developer specializing in machine learning, computer vision, and modern web applications.',
+          'AI & Data Engineer specializing in data analysis, AI automation, machine learning, and full-stack web application development.',
       },
     ],
     links: [

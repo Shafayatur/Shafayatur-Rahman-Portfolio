@@ -172,10 +172,6 @@ function AdminLogin() {
             ← Back to portfolio
           </a>
         </form>
-
-        <p style={{ textAlign: 'center', marginTop: 16, color: 'rgba(232,232,232,0.2)', fontSize: '0.75rem' }}>
-          Default password: admin123 · Set ADMIN_PASSWORD env var to change
-        </p>
       </div>
     </div>
   )

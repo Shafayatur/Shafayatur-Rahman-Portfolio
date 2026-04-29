@@ -97,7 +97,7 @@ export function AboutSection({ about }: AboutProps) {
           >
             <p className="section-label">About Me</p>
             <h2 className="section-title" style={{ marginBottom: 24 }}>
-              Building the future with{' '}
+              Building intelligent systems powered by{' '}
               <span
                 style={{
                   background: 'linear-gradient(135deg, #6366f1, #a855f7)',
@@ -106,7 +106,7 @@ export function AboutSection({ about }: AboutProps) {
                   backgroundClip: 'text',
                 }}
               >
-                intelligent systems
+                AI, automation, and data-driven insights
               </span>
             </h2>
 
