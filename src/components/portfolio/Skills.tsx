@@ -6,25 +6,44 @@ interface SkillsProps {
   skills: SkillCategory[]
 }
 
-function SkillBubble({ name, delay }: { name: string; delay: number }) {
+function SkillTickerRow({ category, reverse }: { category: SkillCategory; reverse?: boolean }) {
+  // Duplicate skills to make it look continuous
+  const doubledSkills = [...category.skills, ...category.skills, ...category.skills, ...category.skills]
+
   return (
-    <motion.div
-      initial={{ opacity: 0, scale: 0.8 }}
-      whileInView={{ opacity: 1, scale: 1 }}
-      viewport={{ once: true }}
-      transition={{ duration: 0.4, delay }}
-      whileHover={{ scale: 1.08, y: -3 }}
-      className="skill-tag"
-      style={{ fontSize: '0.85rem', padding: '8px 16px', cursor: 'default' }}
-    >
-      {name}
-    </motion.div>
+    <div style={{ marginBottom: 40 }}>
+      <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 16, paddingLeft: 24 }}>
+        <span style={{ fontSize: '1.2rem' }}>{category.icon}</span>
+        <h3
+          style={{
+            fontFamily: "'Space Grotesk', sans-serif",
+            fontWeight: 600,
+            fontSize: '1rem',
+            color: '#f0f0f0',
+          }}
+        >
+          {category.name}
+        </h3>
+      </div>
+      
+      <div className="ticker-container">
+        <div className={`ticker-content ${reverse ? 'ticker-content-reverse' : ''}`} style={{ '--duration': '40s' } as React.CSSProperties}>
+          {doubledSkills.map((skill, i) => (
+            <div key={`${skill}-${i}`} className="ticker-item">
+              <div className="skill-tag" style={{ fontSize: '0.9rem', padding: '10px 20px', whiteSpace: 'nowrap' }}>
+                {skill}
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
   )
 }
 
 export function SkillsSection({ skills }: SkillsProps) {
   return (
-    <section id="skills" style={{ background: 'rgba(255,255,255,0.01)' }}>
+    <section id="skills" style={{ background: 'rgba(255,255,255,0.01)', overflow: 'hidden' }}>
       <div className="container">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
@@ -42,59 +61,9 @@ export function SkillsSection({ skills }: SkillsProps) {
           </h2>
         </motion.div>
 
-        <div
-          style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
-            gap: 24,
-          }}
-        >
-          {skills.map((cat, catIdx) => (
-            <motion.div
-              key={cat.id}
-              initial={{ opacity: 0, y: 40 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: '-50px' }}
-              transition={{ duration: 0.5, delay: catIdx * 0.1 }}
-              className="glass-card"
-              style={{ padding: 28 }}
-            >
-              {/* Header */}
-              <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 20 }}>
-                <div
-                  style={{
-                    width: 40,
-                    height: 40,
-                    borderRadius: 10,
-                    background: 'rgba(99,102,241,0.15)',
-                    border: '1px solid rgba(99,102,241,0.25)',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    fontSize: '1.2rem',
-                  }}
-                >
-                  {cat.icon}
-                </div>
-                <h3
-                  style={{
-                    fontFamily: "'Space Grotesk', sans-serif",
-                    fontWeight: 600,
-                    fontSize: '1rem',
-                    color: '#f0f0f0',
-                  }}
-                >
-                  {cat.name}
-                </h3>
-              </div>
-
-              {/* Skill bubbles */}
-              <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
-                {cat.skills.map((skill, i) => (
-                  <SkillBubble key={skill} name={skill} delay={catIdx * 0.1 + i * 0.05} />
-                ))}
-              </div>
-            </motion.div>
+        <div style={{ display: 'flex', flexDirection: 'column' }}>
+          {skills.map((cat, idx) => (
+            <SkillTickerRow key={cat.id} category={cat} reverse={idx % 2 !== 0} />
           ))}
         </div>
       </div>

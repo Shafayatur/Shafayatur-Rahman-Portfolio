@@ -490,6 +490,7 @@ function AboutAdmin({ about, setAbout, token, showToast }: {
         <FormRow label="Email"><AdminInput value={form.email} onChange={(v) => setForm({ ...form, email: v })} placeholder="you@example.com" /></FormRow>
         <FormRow label="GitHub URL"><AdminInput value={form.github} onChange={(v) => setForm({ ...form, github: v })} placeholder="https://github.com/..." /></FormRow>
         <FormRow label="LinkedIn URL"><AdminInput value={form.linkedin} onChange={(v) => setForm({ ...form, linkedin: v })} placeholder="https://linkedin.com/in/..." /></FormRow>
+        <FormRow label="Twitter URL"><AdminInput value={form.twitter ?? ''} onChange={(v) => setForm({ ...form, twitter: v })} placeholder="https://twitter.com/..." /></FormRow>
         <FormRow label="Profile Image URL"><AdminInput value={form.profileImage ?? ''} onChange={(v) => setForm({ ...form, profileImage: v })} placeholder="https://..." /></FormRow>
         <FormRow label="Highlights (one per line)">
           <AdminTextarea

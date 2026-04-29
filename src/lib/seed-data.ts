@@ -1,7 +1,7 @@
 import type { About, Certificate, Experience, Project, Settings, SkillCategory } from './db'
 
 export const SEED_ABOUT: About = {
-  name: 'Alex Chen',
+  name: 'Shafayatur Rahman',
   role: 'AI Engineer & Full-Stack Developer',
   bio: `I'm a passionate AI engineer focused on building intelligent systems that solve real-world problems. With a deep background in machine learning, computer vision, and full-stack development, I bridge the gap between cutting-edge research and production-ready software. I've shipped everything from real-time sign language recognition systems to large-scale NLP pipelines serving millions of requests daily. When I'm not training models, I'm building the interfaces that make them accessible.`,
   location: 'San Francisco, CA',
@@ -219,5 +219,5 @@ export const SEED_CERTIFICATES: Certificate[] = [
 export const SEED_SETTINGS: Settings = {
   hasResume: false,
   seeded: true,
-  siteTitle: 'Alex Chen — AI Engineer',
+  siteTitle: 'Shafayatur Rahman — AI Engineer',
 }

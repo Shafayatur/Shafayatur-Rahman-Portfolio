@@ -71,7 +71,7 @@ export function Navbar({ hasResume }: NavbarProps) {
             padding: 0,
           }}
         >
-          AC
+          SR
         </button>
 
         {/* Desktop nav */}

@@ -21,7 +21,7 @@ export function Preloader({ onComplete }: { onComplete: () => void }) {
           exit={{ opacity: 0 }}
           transition={{ duration: 0.5 }}
         >
-          <div className="preloader-logo">AC</div>
+          <div className="preloader-logo">SR</div>
           <div className="preloader-bar">
             <div className="preloader-bar-fill" />
           </div>

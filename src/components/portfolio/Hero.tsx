@@ -181,7 +181,7 @@ export function Hero({ about }: HeroProps) {
             color: '#f0f0f0',
           }}
         >
-          {about?.name ?? 'Alex Chen'}
+          {about?.name ?? 'Shafayatur Rahman'}
         </motion.h1>
 
         {/* Typewriter role */}
