@@ -296,7 +296,7 @@ function ProjectsAdmin({ projects, setProjects, token, showToast }: {
   const headers = { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` }
 
   const blankProject: Partial<Project> = {
-    title: '', description: '', techStack: [], image: '', github: '', liveUrl: '', featured: false,
+    title: '', description: '', techStack: [], image: '', github: '', liveUrl: '', featured: false, category: '',
   }
 
   const save = async () => {
@@ -343,6 +343,21 @@ function ProjectsAdmin({ projects, setProjects, token, showToast }: {
           <FormRow label="Title"><AdminInput value={editing.title ?? ''} onChange={(v) => setEditing({ ...editing, title: v })} placeholder="Project title" /></FormRow>
           <FormRow label="Description"><AdminTextarea value={editing.description ?? ''} onChange={(v) => setEditing({ ...editing, description: v })} rows={4} placeholder="Project description" /></FormRow>
           <FormRow label="Tech Stack (comma-separated)"><AdminInput value={Array.isArray(editing.techStack) ? editing.techStack.join(', ') : (editing.techStack ?? '')} onChange={(v) => setEditing({ ...editing, techStack: v as unknown as string[] })} placeholder="React, TypeScript, Python" /></FormRow>
+          <FormRow label="Category">
+            <select
+              value={editing.category ?? ''}
+              onChange={(e) => setEditing({ ...editing, category: e.target.value })}
+              style={{ width: '100%', ...inputBaseStyle }}
+            >
+              <option value="">— Select category —</option>
+              <option value="AI">AI</option>
+              <option value="Machine Learning">Machine Learning</option>
+              <option value="Data Science">Data Science</option>
+              <option value="Automation">Automation</option>
+              <option value="Development">Development</option>
+              <option value="Other">Other</option>
+            </select>
+          </FormRow>
           <FormRow label="Image"><ImageUploader value={editing.image ?? ''} onChange={(v) => setEditing({ ...editing, image: v })} token={token} /></FormRow>
           <FormRow label="GitHub URL"><AdminInput value={editing.github ?? ''} onChange={(v) => setEditing({ ...editing, github: v })} placeholder="https://github.com/..." /></FormRow>
           <FormRow label="Live URL"><AdminInput value={editing.liveUrl ?? ''} onChange={(v) => setEditing({ ...editing, liveUrl: v })} placeholder="https://..." /></FormRow>

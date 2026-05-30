@@ -7,10 +7,10 @@ const isSupabaseConfigured = !!(supabaseUrl && supabaseKey)
 
 export const supabase = isSupabaseConfigured
   ? createClient(supabaseUrl, supabaseKey, {
-      auth: {
-        persistSession: false,
-      },
-    })
+    auth: {
+      persistSession: false,
+    },
+  })
   : null
 
 // In-memory fallback store for local development when Supabase is not configured
@@ -122,6 +122,7 @@ export interface Project {
   liveUrl?: string
   featured: boolean
   createdAt: string
+  category?: string
 }
 
 export interface SkillCategory {
