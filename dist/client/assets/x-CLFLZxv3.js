@@ -1,1 +1,0 @@
-import{c as e}from"./createLucideIcon-BxO_J9jh.js";const c=[["path",{d:"M16 20V4a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16",key:"jecpp"}],["rect",{width:"20",height:"14",x:"2",y:"6",rx:"2",key:"i6l2r4"}]],a=e("briefcase",c);const t=[["path",{d:"M18 6 6 18",key:"1bl5f8"}],["path",{d:"m6 6 12 12",key:"d8bk6v"}]],i=e("x",t);export{a as B,i as X};

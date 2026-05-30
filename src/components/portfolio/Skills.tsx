@@ -1,47 +1,15 @@
 'use client'
-import { motion } from 'framer-motion'
+import { useState } from 'react'
+import { motion, AnimatePresence } from 'framer-motion'
 import type { SkillCategory } from '@/lib/db'
 
-interface SkillsProps {
-  skills: SkillCategory[]
-}
+export function SkillsSection({ skills }: { skills: SkillCategory[] }) {
+  const [active, setActive] = useState(0)
 
-function SkillTickerRow({ category, reverse }: { category: SkillCategory; reverse?: boolean }) {
-  // Duplicate skills to make it look continuous
-  const doubledSkills = [...category.skills, ...category.skills, ...category.skills, ...category.skills]
+  if (!skills.length) return null
 
-  return (
-    <div style={{ marginBottom: 40 }}>
-      <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 16, paddingLeft: 24 }}>
-        <span style={{ fontSize: '1.2rem' }}>{category.icon}</span>
-        <h3
-          style={{
-            fontFamily: "'Space Grotesk', sans-serif",
-            fontWeight: 600,
-            fontSize: '1rem',
-            color: '#f0f0f0',
-          }}
-        >
-          {category.name}
-        </h3>
-      </div>
-      
-      <div className="ticker-container">
-        <div className={`ticker-content ${reverse ? 'ticker-content-reverse' : ''}`} style={{ '--duration': '40s' } as React.CSSProperties}>
-          {doubledSkills.map((skill, i) => (
-            <div key={`${skill}-${i}`} className="ticker-item">
-              <div className="skill-tag" style={{ fontSize: '0.9rem', padding: '10px 20px', whiteSpace: 'nowrap' }}>
-                {skill}
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
-    </div>
-  )
-}
+  const current = skills[active]
 
-export function SkillsSection({ skills }: SkillsProps) {
   return (
     <section id="skills" style={{ background: 'rgba(255,255,255,0.01)', overflow: 'hidden' }}>
       <div className="container">
@@ -50,7 +18,7 @@ export function SkillsSection({ skills }: SkillsProps) {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
-          style={{ textAlign: 'center', marginBottom: 64 }}
+          style={{ textAlign: 'center', marginBottom: 48 }}
         >
           <p className="section-label">Expertise</p>
           <h2 className="section-title">
@@ -61,10 +29,57 @@ export function SkillsSection({ skills }: SkillsProps) {
           </h2>
         </motion.div>
 
-        <div style={{ display: 'flex', flexDirection: 'column' }}>
-          {skills.map((cat, idx) => (
-            <SkillTickerRow key={cat.id} category={cat} reverse={idx % 2 !== 0} />
+        {/* Tabs */}
+        <div style={{ display: 'flex', flexWrap: 'wrap', gap: 10, justifyContent: 'center', marginBottom: 32 }}>
+          {skills.map((cat, i) => (
+            <button
+              key={cat.id}
+              onClick={() => setActive(i)}
+              style={{
+                display: 'flex', alignItems: 'center', gap: 8,
+                padding: '9px 20px', borderRadius: 100, cursor: 'pointer',
+                fontFamily: "'Space Grotesk', sans-serif", fontWeight: 600, fontSize: '0.875rem',
+                transition: 'all 0.2s',
+                background: active === i ? 'linear-gradient(135deg,#6366f1,#a855f7)' : 'rgba(255,255,255,0.05)',
+                border: active === i ? '1px solid transparent' : '1px solid rgba(255,255,255,0.08)',
+                color: active === i ? '#fff' : 'rgba(232,232,232,0.55)',
+              }}
+            >
+              <span>{cat.icon}</span>
+              {cat.name}
+              <span style={{
+                fontSize: '0.7rem', padding: '1px 7px', borderRadius: 100,
+                background: active === i ? 'rgba(255,255,255,0.2)' : 'rgba(255,255,255,0.07)',
+                color: active === i ? '#fff' : 'rgba(232,232,232,0.4)',
+              }}>
+                {cat.skills.length}
+              </span>
+            </button>
           ))}
+        </div>
+
+        {/* Skills panel */}
+        <div style={{
+          background: 'rgba(255,255,255,0.02)',
+          border: '1px solid rgba(255,255,255,0.07)',
+          borderRadius: 16, overflow: 'hidden',
+        }}>
+          {/* Scrolling ticker */}
+          <div className="ticker-container" style={{ padding: '18px 0' }}>
+            <div
+              key={current.id}
+              className="ticker-content"
+              style={{ '--duration': `${Math.max(10, current.skills.length * 2.5)}s` } as React.CSSProperties}
+            >
+              {[...current.skills, ...current.skills, ...current.skills, ...current.skills].map((skill, i) => (
+                <div key={i} className="ticker-item">
+                  <span className="skill-tag" style={{ fontSize: '0.875rem', padding: '7px 18px', whiteSpace: 'nowrap' }}>
+                    {skill}
+                  </span>
+                </div>
+              ))}
+            </div>
+          </div>
         </div>
       </div>
     </section>

@@ -230,75 +230,78 @@ export interface FileRoutesById {
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
-  | '/'
-  | '/admin'
-  | '/contact'
-  | '/projects'
-  | '/resume'
-  | '/admin/dashboard'
-  | '/blog/$slug'
-  | '/admin/'
-  | '/api/admin/login'
-  | '/api/admin/resume'
-  | '/api/portfolio/about'
-  | '/api/portfolio/certificates'
-  | '/api/portfolio/contact'
-  | '/api/portfolio/data'
-  | '/api/portfolio/experience'
-  | '/api/portfolio/messages'
-  | '/api/portfolio/projects'
-  | '/api/portfolio/skills'
-  | '/api/portfolio/certificates/$id'
-  | '/api/portfolio/experience/$id'
-  | '/api/portfolio/messages/$id'
-  | '/api/portfolio/projects/$id'
+    | '/'
+    | '/admin'
+    | '/contact'
+    | '/projects'
+    | '/resume'
+    | '/admin/dashboard'
+    | '/blog/$slug'
+    | '/admin/'
+    | '/api/admin/login'
+    | '/api/admin/resume'
+    | '/api/admin/upload'
+    | '/api/portfolio/about'
+    | '/api/portfolio/certificates'
+    | '/api/portfolio/contact'
+    | '/api/portfolio/data'
+    | '/api/portfolio/experience'
+    | '/api/portfolio/messages'
+    | '/api/portfolio/projects'
+    | '/api/portfolio/skills'
+    | '/api/portfolio/certificates/$id'
+    | '/api/portfolio/experience/$id'
+    | '/api/portfolio/messages/$id'
+    | '/api/portfolio/projects/$id'
   fileRoutesByTo: FileRoutesByTo
   to:
-  | '/'
-  | '/contact'
-  | '/projects'
-  | '/resume'
-  | '/admin/dashboard'
-  | '/blog/$slug'
-  | '/admin'
-  | '/api/admin/login'
-  | '/api/admin/resume'
-  | '/api/portfolio/about'
-  | '/api/portfolio/certificates'
-  | '/api/portfolio/contact'
-  | '/api/portfolio/data'
-  | '/api/portfolio/experience'
-  | '/api/portfolio/messages'
-  | '/api/portfolio/projects'
-  | '/api/portfolio/skills'
-  | '/api/portfolio/certificates/$id'
-  | '/api/portfolio/experience/$id'
-  | '/api/portfolio/messages/$id'
-  | '/api/portfolio/projects/$id'
+    | '/'
+    | '/contact'
+    | '/projects'
+    | '/resume'
+    | '/admin/dashboard'
+    | '/blog/$slug'
+    | '/admin'
+    | '/api/admin/login'
+    | '/api/admin/resume'
+    | '/api/admin/upload'
+    | '/api/portfolio/about'
+    | '/api/portfolio/certificates'
+    | '/api/portfolio/contact'
+    | '/api/portfolio/data'
+    | '/api/portfolio/experience'
+    | '/api/portfolio/messages'
+    | '/api/portfolio/projects'
+    | '/api/portfolio/skills'
+    | '/api/portfolio/certificates/$id'
+    | '/api/portfolio/experience/$id'
+    | '/api/portfolio/messages/$id'
+    | '/api/portfolio/projects/$id'
   id:
-  | '__root__'
-  | '/'
-  | '/admin'
-  | '/contact'
-  | '/projects'
-  | '/resume'
-  | '/admin/dashboard'
-  | '/blog/$slug'
-  | '/admin/'
-  | '/api/admin/login'
-  | '/api/admin/resume'
-  | '/api/portfolio/about'
-  | '/api/portfolio/certificates'
-  | '/api/portfolio/contact'
-  | '/api/portfolio/data'
-  | '/api/portfolio/experience'
-  | '/api/portfolio/messages'
-  | '/api/portfolio/projects'
-  | '/api/portfolio/skills'
-  | '/api/portfolio/certificates/$id'
-  | '/api/portfolio/experience/$id'
-  | '/api/portfolio/messages/$id'
-  | '/api/portfolio/projects/$id'
+    | '__root__'
+    | '/'
+    | '/admin'
+    | '/contact'
+    | '/projects'
+    | '/resume'
+    | '/admin/dashboard'
+    | '/blog/$slug'
+    | '/admin/'
+    | '/api/admin/login'
+    | '/api/admin/resume'
+    | '/api/admin/upload'
+    | '/api/portfolio/about'
+    | '/api/portfolio/certificates'
+    | '/api/portfolio/contact'
+    | '/api/portfolio/data'
+    | '/api/portfolio/experience'
+    | '/api/portfolio/messages'
+    | '/api/portfolio/projects'
+    | '/api/portfolio/skills'
+    | '/api/portfolio/certificates/$id'
+    | '/api/portfolio/experience/$id'
+    | '/api/portfolio/messages/$id'
+    | '/api/portfolio/projects/$id'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -435,18 +438,18 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiPortfolioAboutRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/api/admin/resume': {
-      id: '/api/admin/resume'
-      path: '/api/admin/resume'
-      fullPath: '/api/admin/resume'
-      preLoaderRoute: typeof ApiAdminResumeRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/api/admin/upload': {
       id: '/api/admin/upload'
       path: '/api/admin/upload'
       fullPath: '/api/admin/upload'
       preLoaderRoute: typeof ApiAdminUploadRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/admin/resume': {
+      id: '/api/admin/resume'
+      path: '/api/admin/resume'
+      fullPath: '/api/admin/resume'
+      preLoaderRoute: typeof ApiAdminResumeRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/api/admin/login': {
@@ -504,9 +507,9 @@ interface ApiPortfolioCertificatesRouteChildren {
 }
 
 const ApiPortfolioCertificatesRouteChildren: ApiPortfolioCertificatesRouteChildren =
-{
-  ApiPortfolioCertificatesIdRoute: ApiPortfolioCertificatesIdRoute,
-}
+  {
+    ApiPortfolioCertificatesIdRoute: ApiPortfolioCertificatesIdRoute,
+  }
 
 const ApiPortfolioCertificatesRouteWithChildren =
   ApiPortfolioCertificatesRoute._addFileChildren(
@@ -518,9 +521,9 @@ interface ApiPortfolioExperienceRouteChildren {
 }
 
 const ApiPortfolioExperienceRouteChildren: ApiPortfolioExperienceRouteChildren =
-{
-  ApiPortfolioExperienceIdRoute: ApiPortfolioExperienceIdRoute,
-}
+  {
+    ApiPortfolioExperienceIdRoute: ApiPortfolioExperienceIdRoute,
+  }
 
 const ApiPortfolioExperienceRouteWithChildren =
   ApiPortfolioExperienceRoute._addFileChildren(
