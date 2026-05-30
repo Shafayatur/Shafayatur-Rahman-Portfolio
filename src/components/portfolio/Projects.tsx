@@ -165,7 +165,7 @@ function ProjectModal({ project, onClose }: { project: Project; onClose: () => v
 }
 
 function CategoryGroup({ category, projects, onSelect }: { category: string; projects: Project[]; onSelect: (p: Project) => void }) {
-  const [open, setOpen] = useState(true)
+  const [open, setOpen] = useState(false)
   const color = getCategoryColor(category)
 
   return (
