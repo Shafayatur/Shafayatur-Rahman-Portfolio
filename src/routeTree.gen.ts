@@ -25,6 +25,7 @@ import { Route as ApiPortfolioDataRouteImport } from './routes/api.portfolio.dat
 import { Route as ApiPortfolioContactRouteImport } from './routes/api.portfolio.contact'
 import { Route as ApiPortfolioCertificatesRouteImport } from './routes/api.portfolio.certificates'
 import { Route as ApiPortfolioAboutRouteImport } from './routes/api.portfolio.about'
+import { Route as ApiAdminUploadRouteImport } from './routes/api.admin.upload'
 import { Route as ApiAdminResumeRouteImport } from './routes/api.admin.resume'
 import { Route as ApiAdminLoginRouteImport } from './routes/api.admin.login'
 import { Route as ApiPortfolioProjectsIdRouteImport } from './routes/api.portfolio.projects.$id'
@@ -113,6 +114,11 @@ const ApiPortfolioAboutRoute = ApiPortfolioAboutRouteImport.update({
   path: '/api/portfolio/about',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiAdminUploadRoute = ApiAdminUploadRouteImport.update({
+  id: '/api/admin/upload',
+  path: '/api/admin/upload',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ApiAdminResumeRoute = ApiAdminResumeRouteImport.update({
   id: '/api/admin/resume',
   path: '/api/admin/resume',
@@ -157,6 +163,7 @@ export interface FileRoutesByFullPath {
   '/admin/': typeof AdminIndexRoute
   '/api/admin/login': typeof ApiAdminLoginRoute
   '/api/admin/resume': typeof ApiAdminResumeRoute
+  '/api/admin/upload': typeof ApiAdminUploadRoute
   '/api/portfolio/about': typeof ApiPortfolioAboutRoute
   '/api/portfolio/certificates': typeof ApiPortfolioCertificatesRouteWithChildren
   '/api/portfolio/contact': typeof ApiPortfolioContactRoute
@@ -180,6 +187,7 @@ export interface FileRoutesByTo {
   '/admin': typeof AdminIndexRoute
   '/api/admin/login': typeof ApiAdminLoginRoute
   '/api/admin/resume': typeof ApiAdminResumeRoute
+  '/api/admin/upload': typeof ApiAdminUploadRoute
   '/api/portfolio/about': typeof ApiPortfolioAboutRoute
   '/api/portfolio/certificates': typeof ApiPortfolioCertificatesRouteWithChildren
   '/api/portfolio/contact': typeof ApiPortfolioContactRoute
@@ -205,6 +213,7 @@ export interface FileRoutesById {
   '/admin/': typeof AdminIndexRoute
   '/api/admin/login': typeof ApiAdminLoginRoute
   '/api/admin/resume': typeof ApiAdminResumeRoute
+  '/api/admin/upload': typeof ApiAdminUploadRoute
   '/api/portfolio/about': typeof ApiPortfolioAboutRoute
   '/api/portfolio/certificates': typeof ApiPortfolioCertificatesRouteWithChildren
   '/api/portfolio/contact': typeof ApiPortfolioContactRoute
@@ -221,75 +230,75 @@ export interface FileRoutesById {
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
-    | '/'
-    | '/admin'
-    | '/contact'
-    | '/projects'
-    | '/resume'
-    | '/admin/dashboard'
-    | '/blog/$slug'
-    | '/admin/'
-    | '/api/admin/login'
-    | '/api/admin/resume'
-    | '/api/portfolio/about'
-    | '/api/portfolio/certificates'
-    | '/api/portfolio/contact'
-    | '/api/portfolio/data'
-    | '/api/portfolio/experience'
-    | '/api/portfolio/messages'
-    | '/api/portfolio/projects'
-    | '/api/portfolio/skills'
-    | '/api/portfolio/certificates/$id'
-    | '/api/portfolio/experience/$id'
-    | '/api/portfolio/messages/$id'
-    | '/api/portfolio/projects/$id'
+  | '/'
+  | '/admin'
+  | '/contact'
+  | '/projects'
+  | '/resume'
+  | '/admin/dashboard'
+  | '/blog/$slug'
+  | '/admin/'
+  | '/api/admin/login'
+  | '/api/admin/resume'
+  | '/api/portfolio/about'
+  | '/api/portfolio/certificates'
+  | '/api/portfolio/contact'
+  | '/api/portfolio/data'
+  | '/api/portfolio/experience'
+  | '/api/portfolio/messages'
+  | '/api/portfolio/projects'
+  | '/api/portfolio/skills'
+  | '/api/portfolio/certificates/$id'
+  | '/api/portfolio/experience/$id'
+  | '/api/portfolio/messages/$id'
+  | '/api/portfolio/projects/$id'
   fileRoutesByTo: FileRoutesByTo
   to:
-    | '/'
-    | '/contact'
-    | '/projects'
-    | '/resume'
-    | '/admin/dashboard'
-    | '/blog/$slug'
-    | '/admin'
-    | '/api/admin/login'
-    | '/api/admin/resume'
-    | '/api/portfolio/about'
-    | '/api/portfolio/certificates'
-    | '/api/portfolio/contact'
-    | '/api/portfolio/data'
-    | '/api/portfolio/experience'
-    | '/api/portfolio/messages'
-    | '/api/portfolio/projects'
-    | '/api/portfolio/skills'
-    | '/api/portfolio/certificates/$id'
-    | '/api/portfolio/experience/$id'
-    | '/api/portfolio/messages/$id'
-    | '/api/portfolio/projects/$id'
+  | '/'
+  | '/contact'
+  | '/projects'
+  | '/resume'
+  | '/admin/dashboard'
+  | '/blog/$slug'
+  | '/admin'
+  | '/api/admin/login'
+  | '/api/admin/resume'
+  | '/api/portfolio/about'
+  | '/api/portfolio/certificates'
+  | '/api/portfolio/contact'
+  | '/api/portfolio/data'
+  | '/api/portfolio/experience'
+  | '/api/portfolio/messages'
+  | '/api/portfolio/projects'
+  | '/api/portfolio/skills'
+  | '/api/portfolio/certificates/$id'
+  | '/api/portfolio/experience/$id'
+  | '/api/portfolio/messages/$id'
+  | '/api/portfolio/projects/$id'
   id:
-    | '__root__'
-    | '/'
-    | '/admin'
-    | '/contact'
-    | '/projects'
-    | '/resume'
-    | '/admin/dashboard'
-    | '/blog/$slug'
-    | '/admin/'
-    | '/api/admin/login'
-    | '/api/admin/resume'
-    | '/api/portfolio/about'
-    | '/api/portfolio/certificates'
-    | '/api/portfolio/contact'
-    | '/api/portfolio/data'
-    | '/api/portfolio/experience'
-    | '/api/portfolio/messages'
-    | '/api/portfolio/projects'
-    | '/api/portfolio/skills'
-    | '/api/portfolio/certificates/$id'
-    | '/api/portfolio/experience/$id'
-    | '/api/portfolio/messages/$id'
-    | '/api/portfolio/projects/$id'
+  | '__root__'
+  | '/'
+  | '/admin'
+  | '/contact'
+  | '/projects'
+  | '/resume'
+  | '/admin/dashboard'
+  | '/blog/$slug'
+  | '/admin/'
+  | '/api/admin/login'
+  | '/api/admin/resume'
+  | '/api/portfolio/about'
+  | '/api/portfolio/certificates'
+  | '/api/portfolio/contact'
+  | '/api/portfolio/data'
+  | '/api/portfolio/experience'
+  | '/api/portfolio/messages'
+  | '/api/portfolio/projects'
+  | '/api/portfolio/skills'
+  | '/api/portfolio/certificates/$id'
+  | '/api/portfolio/experience/$id'
+  | '/api/portfolio/messages/$id'
+  | '/api/portfolio/projects/$id'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -301,6 +310,7 @@ export interface RootRouteChildren {
   BlogSlugRoute: typeof BlogSlugRoute
   ApiAdminLoginRoute: typeof ApiAdminLoginRoute
   ApiAdminResumeRoute: typeof ApiAdminResumeRoute
+  ApiAdminUploadRoute: typeof ApiAdminUploadRoute
   ApiPortfolioAboutRoute: typeof ApiPortfolioAboutRoute
   ApiPortfolioCertificatesRoute: typeof ApiPortfolioCertificatesRouteWithChildren
   ApiPortfolioContactRoute: typeof ApiPortfolioContactRoute
@@ -432,6 +442,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiAdminResumeRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/admin/upload': {
+      id: '/api/admin/upload'
+      path: '/api/admin/upload'
+      fullPath: '/api/admin/upload'
+      preLoaderRoute: typeof ApiAdminUploadRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/api/admin/login': {
       id: '/api/admin/login'
       path: '/api/admin/login'
@@ -487,9 +504,9 @@ interface ApiPortfolioCertificatesRouteChildren {
 }
 
 const ApiPortfolioCertificatesRouteChildren: ApiPortfolioCertificatesRouteChildren =
-  {
-    ApiPortfolioCertificatesIdRoute: ApiPortfolioCertificatesIdRoute,
-  }
+{
+  ApiPortfolioCertificatesIdRoute: ApiPortfolioCertificatesIdRoute,
+}
 
 const ApiPortfolioCertificatesRouteWithChildren =
   ApiPortfolioCertificatesRoute._addFileChildren(
@@ -501,9 +518,9 @@ interface ApiPortfolioExperienceRouteChildren {
 }
 
 const ApiPortfolioExperienceRouteChildren: ApiPortfolioExperienceRouteChildren =
-  {
-    ApiPortfolioExperienceIdRoute: ApiPortfolioExperienceIdRoute,
-  }
+{
+  ApiPortfolioExperienceIdRoute: ApiPortfolioExperienceIdRoute,
+}
 
 const ApiPortfolioExperienceRouteWithChildren =
   ApiPortfolioExperienceRoute._addFileChildren(
@@ -541,6 +558,7 @@ const rootRouteChildren: RootRouteChildren = {
   BlogSlugRoute: BlogSlugRoute,
   ApiAdminLoginRoute: ApiAdminLoginRoute,
   ApiAdminResumeRoute: ApiAdminResumeRoute,
+  ApiAdminUploadRoute: ApiAdminUploadRoute,
   ApiPortfolioAboutRoute: ApiPortfolioAboutRoute,
   ApiPortfolioCertificatesRoute: ApiPortfolioCertificatesRouteWithChildren,
   ApiPortfolioContactRoute: ApiPortfolioContactRoute,
