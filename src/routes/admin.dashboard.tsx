@@ -17,6 +17,8 @@ import {
   X,
   Eye,
   Database,
+  Upload,
+  ImageIcon,
 } from 'lucide-react'
 import type { About, Certificate, Experience, Message, Project, SkillCategory } from '@/lib/db'
 
@@ -341,7 +343,7 @@ function ProjectsAdmin({ projects, setProjects, token, showToast }: {
           <FormRow label="Title"><AdminInput value={editing.title ?? ''} onChange={(v) => setEditing({ ...editing, title: v })} placeholder="Project title" /></FormRow>
           <FormRow label="Description"><AdminTextarea value={editing.description ?? ''} onChange={(v) => setEditing({ ...editing, description: v })} rows={4} placeholder="Project description" /></FormRow>
           <FormRow label="Tech Stack (comma-separated)"><AdminInput value={Array.isArray(editing.techStack) ? editing.techStack.join(', ') : (editing.techStack ?? '')} onChange={(v) => setEditing({ ...editing, techStack: v as unknown as string[] })} placeholder="React, TypeScript, Python" /></FormRow>
-          <FormRow label="Image URL"><AdminInput value={editing.image ?? ''} onChange={(v) => setEditing({ ...editing, image: v })} placeholder="https://..." /></FormRow>
+          <FormRow label="Image"><ImageUploader value={editing.image ?? ''} onChange={(v) => setEditing({ ...editing, image: v })} token={token} /></FormRow>
           <FormRow label="GitHub URL"><AdminInput value={editing.github ?? ''} onChange={(v) => setEditing({ ...editing, github: v })} placeholder="https://github.com/..." /></FormRow>
           <FormRow label="Live URL"><AdminInput value={editing.liveUrl ?? ''} onChange={(v) => setEditing({ ...editing, liveUrl: v })} placeholder="https://..." /></FormRow>
           <FormRow label="Featured">
@@ -491,7 +493,7 @@ function AboutAdmin({ about, setAbout, token, showToast }: {
         <FormRow label="GitHub URL"><AdminInput value={form.github} onChange={(v) => setForm({ ...form, github: v })} placeholder="https://github.com/..." /></FormRow>
         <FormRow label="LinkedIn URL"><AdminInput value={form.linkedin} onChange={(v) => setForm({ ...form, linkedin: v })} placeholder="https://linkedin.com/in/..." /></FormRow>
         <FormRow label="Twitter URL"><AdminInput value={form.twitter ?? ''} onChange={(v) => setForm({ ...form, twitter: v })} placeholder="https://twitter.com/..." /></FormRow>
-        <FormRow label="Profile Image URL"><AdminInput value={form.profileImage ?? ''} onChange={(v) => setForm({ ...form, profileImage: v })} placeholder="https://..." /></FormRow>
+        <FormRow label="Profile Image"><ImageUploader value={form.profileImage ?? ''} onChange={(v) => setForm({ ...form, profileImage: v })} token={token} /></FormRow>
         <FormRow label="Highlights (one per line)">
           <AdminTextarea
             value={Array.isArray(form.highlights) ? form.highlights.join('\n') : (form.highlights as unknown as string)}
@@ -634,7 +636,7 @@ function CertificatesAdmin({ certificates, setCertificates, token, showToast }: 
           <FormRow label="Title"><AdminInput value={editing.title ?? ''} onChange={(v) => setEditing({ ...editing, title: v })} placeholder="TensorFlow Developer Certificate" /></FormRow>
           <FormRow label="Issuer"><AdminInput value={editing.issuer ?? ''} onChange={(v) => setEditing({ ...editing, issuer: v })} placeholder="Google" /></FormRow>
           <FormRow label="Date"><AdminInput value={editing.date ?? ''} onChange={(v) => setEditing({ ...editing, date: v })} placeholder="2023" /></FormRow>
-          <FormRow label="Image URL"><AdminInput value={editing.image ?? ''} onChange={(v) => setEditing({ ...editing, image: v })} placeholder="https://..." /></FormRow>
+          <FormRow label="Image"><ImageUploader value={editing.image ?? ''} onChange={(v) => setEditing({ ...editing, image: v })} token={token} /></FormRow>
           <FormRow label="Certificate URL"><AdminInput value={editing.url ?? ''} onChange={(v) => setEditing({ ...editing, url: v })} placeholder="https://credential.net/..." /></FormRow>
         </FormModal>
       )}
@@ -911,6 +913,56 @@ function AdminIconButton({ onClick, icon, danger }: { onClick: (e: React.MouseEv
     >
       {icon}
     </button>
+  )
+}
+
+function ImageUploader({ value, onChange, token }: { value: string; onChange: (v: string) => void; token: string }) {
+  const [uploading, setUploading] = useState(false)
+
+  const handleFile = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0]
+    if (!file) return
+    setUploading(true)
+    const fd = new FormData()
+    fd.append('image', file)
+    const res = await fetch('/api/admin/upload', {
+      method: 'POST',
+      headers: { Authorization: `Bearer ${token}` },
+      body: fd,
+    })
+    setUploading(false)
+    if (res.ok) {
+      const { url } = await res.json()
+      onChange(url)
+    }
+  }
+
+  return (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+      {value && (
+        <div style={{ position: 'relative', width: '100%', height: 120, borderRadius: 8, overflow: 'hidden', border: '1px solid rgba(255,255,255,0.1)' }}>
+          <img src={value} alt="Preview" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+          <button
+            onClick={() => onChange('')}
+            style={{ position: 'absolute', top: 6, right: 6, background: 'rgba(0,0,0,0.6)', border: 'none', borderRadius: 4, color: '#fff', cursor: 'pointer', padding: '2px 6px', fontSize: '0.75rem' }}
+          >
+            ✕
+          </button>
+        </div>
+      )}
+      <label style={{
+        display: 'flex', alignItems: 'center', gap: 8, cursor: uploading ? 'not-allowed' : 'pointer',
+        background: 'rgba(99,102,241,0.1)', border: '1px dashed rgba(99,102,241,0.4)',
+        borderRadius: 8, padding: '10px 14px', color: '#a5b4fc', fontSize: '0.875rem',
+        opacity: uploading ? 0.6 : 1,
+      }}>
+        {uploading
+          ? <><div style={{ width: 14, height: 14, border: '2px solid rgba(165,180,252,0.3)', borderTopColor: '#a5b4fc', borderRadius: '50%', animation: 'spin 0.8s linear infinite' }} /> Uploading…</>
+          : <><Upload size={14} /> {value ? 'Replace image' : 'Upload image'}</>
+        }
+        <input type="file" accept="image/*" onChange={handleFile} disabled={uploading} style={{ display: 'none' }} />
+      </label>
+    </div>
   )
 }
 
