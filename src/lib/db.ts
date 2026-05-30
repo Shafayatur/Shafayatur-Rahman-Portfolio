@@ -1,9 +1,113 @@
-import { getStore } from '@netlify/blobs'
+import { createClient } from '@supabase/supabase-js'
 
-const STORE = 'portfolio-data'
+const supabaseUrl = process.env.SUPABASE_URL || ''
+const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.SUPABASE_ANON_KEY || ''
+
+const isSupabaseConfigured = !!(supabaseUrl && supabaseKey)
+
+export const supabase = isSupabaseConfigured
+  ? createClient(supabaseUrl, supabaseKey, {
+      auth: {
+        persistSession: false,
+      },
+    })
+  : null
+
+// In-memory fallback store for local development when Supabase is not configured
+const memoryStore: Record<string, any> = {}
+
+if (!isSupabaseConfigured) {
+  console.warn(
+    '⚠️ Supabase URL or Key not set. Falling back to an in-memory key-value database for local development.'
+  )
+}
+
+async function getJSON<T>(key: string): Promise<T | null> {
+  if (!supabase) {
+    return (memoryStore[key] as T) ?? null
+  }
+  try {
+    const { data, error } = await supabase
+      .from('portfolio_store')
+      .select('value')
+      .eq('key', key)
+      .maybeSingle()
+
+    if (error) {
+      console.error(`Error getting key ${key} from Supabase:`, error)
+      return null
+    }
+    return (data?.value as T) ?? null
+  } catch (err) {
+    console.error(`Unhandled error getting key ${key} from Supabase:`, err)
+    return null
+  }
+}
+
+async function setJSON(key: string, value: any): Promise<void> {
+  if (!supabase) {
+    memoryStore[key] = value
+    return
+  }
+  try {
+    const { error } = await supabase
+      .from('portfolio_store')
+      .upsert({ key, value })
+
+    if (error) {
+      console.error(`Error setting key ${key} in Supabase:`, error)
+      throw error
+    }
+  } catch (err) {
+    console.error(`Unhandled error setting key ${key} in Supabase:`, err)
+    throw err
+  }
+}
+
+async function deleteKey(key: string): Promise<void> {
+  if (!supabase) {
+    delete memoryStore[key]
+    return
+  }
+  try {
+    const { error } = await supabase
+      .from('portfolio_store')
+      .delete()
+      .eq('key', key)
+
+    if (error) {
+      console.error(`Error deleting key ${key} in Supabase:`, error)
+      throw error
+    }
+  } catch (err) {
+    console.error(`Unhandled error deleting key ${key} in Supabase:`, err)
+    throw err
+  }
+}
 
 function store() {
-  return getStore({ name: STORE, consistency: 'strong' })
+  return {
+    get: async (key: string, options?: { type: 'json' | 'blob' }) => {
+      if (options?.type === 'blob') {
+        const record = await getJSON<{ base64: string }>(`${key}_file`)
+        if (!record) return null
+        const buffer = Buffer.from(record.base64, 'base64')
+        return new Blob([buffer], { type: 'application/pdf' })
+      }
+      return getJSON(key)
+    },
+    setJSON: async (key: string, value: any) => {
+      await setJSON(key, value)
+    },
+    set: async (key: string, data: ArrayBuffer) => {
+      const base64 = Buffer.from(data).toString('base64')
+      await setJSON(`${key}_file`, { base64 })
+    },
+    delete: async (key: string) => {
+      await deleteKey(key)
+      await deleteKey(`${key}_file`)
+    },
+  }
 }
 
 // ─── Types ────────────────────────────────────────────────────────────────────

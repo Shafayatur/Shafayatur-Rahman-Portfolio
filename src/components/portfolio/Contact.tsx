@@ -321,7 +321,7 @@ export function ContactSection({ about }: ContactProps) {
       <div className="gradient-divider" style={{ marginTop: 80 }} />
       <div className="container" style={{ paddingTop: 32, paddingBottom: 32, textAlign: 'center' }}>
         <p style={{ color: 'rgba(232,232,232,0.3)', fontSize: '0.85rem' }}>
-          Built with TanStack Start · Deployed on Netlify
+          Built with TanStack Start · Deployed on Vercel
           <span style={{ margin: '0 12px', opacity: 0.3 }}>·</span>
           <a href="/admin" style={{ color: 'rgba(232,232,232,0.3)', textDecoration: 'none' }}>Admin</a>
         </p>

@@ -43,30 +43,33 @@ function Contact() {
 
         <form
           name="contact"
-          method="POST"
-          data-netlify="true"
-          netlify-honeypot="bot-field"
-          onSubmit={(e) => {
+          onSubmit={async (e) => {
             e.preventDefault()
             const form = e.currentTarget
             const formData = new FormData(form)
-            fetch('/contact.html', {
-              method: 'POST',
-              headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-              body: new URLSearchParams(
-                formData as unknown as Record<string, string>,
-              ).toString(),
-            })
-              .then(() => setSubmitted(true))
+            const payload = {
+              name: formData.get('name'),
+              email: formData.get('email'),
+              subject: 'Contact Page Submission',
+              message: formData.get('message'),
+            }
+            try {
+              const res = await fetch('/api/portfolio/contact', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload),
+              })
+              if (res.ok) {
+                setSubmitted(true)
+              } else {
+                alert('Failed to send message. Please try again.')
+              }
+            } catch {
+              alert('Failed to send message. Please try again.')
+            }
           }}
           className="space-y-6"
         >
-          <input type="hidden" name="form-name" value="contact" />
-          <p hidden>
-            <label>
-              Don't fill this out: <input name="bot-field" />
-            </label>
-          </p>
 
           <div>
             <label
