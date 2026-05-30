@@ -355,6 +355,7 @@ function ProjectsAdmin({ projects, setProjects, token, showToast }: {
               <option value="Data Science">Data Science</option>
               <option value="Automation">Automation</option>
               <option value="Development">Development</option>
+              <option value="CV">CV</option>
               <option value="Other">Other</option>
             </select>
           </FormRow>
