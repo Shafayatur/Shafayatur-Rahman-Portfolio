@@ -9,7 +9,7 @@ interface ExperienceProps {
 
 export function ExperienceSection({ experience }: ExperienceProps) {
   const work = experience.filter((e) => e.type === 'work')
-  const education = experience.filter((e) => e.type === 'educationnn')
+  const education = experience.filter((e) => e.type === 'education')
 
   return (
     <section id="experience" style={{ background: 'rgba(255,255,255,0.01)' }}>
