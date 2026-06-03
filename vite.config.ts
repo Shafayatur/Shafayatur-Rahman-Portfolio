@@ -8,11 +8,14 @@ import contentCollections from '@content-collections/vite'
 export default defineConfig({
   plugins: [
     contentCollections(),
-    viteTsConfigPaths({ projects: ['./tsconfig.json'] }),
-    tailwindcss(),
-    tanstackStart({
-      target: 'vercel',  // 👈 add this line
+    viteTsConfigPaths({
+      projects: ['./tsconfig.json'],
     }),
+    tailwindcss(),
+    tanstackStart(),
     viteReact(),
   ],
+  ssr: {
+    noExternal: ['resend'],
+  },
 })
