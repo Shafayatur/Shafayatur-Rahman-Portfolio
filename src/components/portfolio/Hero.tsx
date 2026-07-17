@@ -5,8 +5,8 @@ import { ChevronDown } from 'lucide-react'
 import type { About } from '@/lib/db'
 
 const ROLES = [
-  'Data Analyst',
-  'AI & Automation Engineer',
+  'AI Engineer',
+  'Automation Specialist',
   'Machine Learning Enthusiast',
   'AI-Powered Web Developer'
 ]
