@@ -64,6 +64,11 @@ export async function generate({
     generationConfig: {
       temperature,
       maxOutputTokens,
+      // Gemini 2.5 models "think" before answering, and those reasoning tokens
+      // are charged against maxOutputTokens — which silently truncates the
+      // visible answer mid-sentence. These are lookup-and-summarise tasks over
+      // a small, fully supplied context, so thinking buys nothing here.
+      thinkingConfig: { thinkingBudget: 0 },
       ...(responseSchema
         ? { responseMimeType: 'application/json', responseSchema }
         : {}),
@@ -129,6 +134,14 @@ export async function generate({
       throw new GeminiError('The answer was too long to generate.', 502, true)
     }
     throw new GeminiError('The assistant returned an empty response.', 502)
+  }
+
+  // Partial text with MAX_TOKENS means the reply was cut off mid-sentence.
+  // Surface it in logs rather than shipping a truncated answer silently.
+  if (candidate?.finishReason === 'MAX_TOKENS') {
+    console.warn(
+      `Gemini hit maxOutputTokens (${maxOutputTokens}); answer was truncated. Consider raising the limit.`,
+    )
   }
 
   return text

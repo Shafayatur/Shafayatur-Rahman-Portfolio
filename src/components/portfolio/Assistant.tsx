@@ -32,6 +32,13 @@ const SUGGESTIONS = [
   'Tell me about his education.',
 ]
 
+/**
+ * Opening line, hardcoded rather than generated: it costs no API quota, never
+ * varies, and shows instantly instead of after a round-trip.
+ */
+const GREETING =
+  "Hey — I'm Shafayatur's agent. I've read his resume and everything he's built, so you can get straight answers here instead of waiting on a reply. Ask me anything about his work, or paste a job post in the other tab."
+
 const inputStyle: React.CSSProperties = {
   width: '100%',
   background: 'rgba(255,255,255,0.04)',
@@ -80,6 +87,25 @@ function ThinkingDots() {
   )
 }
 
+function AgentAvatar() {
+  return (
+    <div
+      style={{
+        flexShrink: 0,
+        width: 28,
+        height: 28,
+        borderRadius: 8,
+        background: 'linear-gradient(135deg,#6366f1,#a855f7)',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+      }}
+    >
+      <Sparkles size={14} color="#fff" />
+    </div>
+  )
+}
+
 function AskPanel() {
   const [question, setQuestion] = useState('')
   const [turns, setTurns] = useState<Array<Turn>>([])
@@ -118,10 +144,29 @@ function AskPanel() {
 
   return (
     <div>
-      {/* Conversation */}
-      {(turns.length > 0 || loading) && (
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 20, marginBottom: 24 }}>
-          {turns.map((turn, i) => (
+      {/* Conversation — always rendered, so the greeting is the first thing
+          a visitor sees rather than an empty input box. */}
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 20, marginBottom: 24 }}>
+        <motion.div
+          initial={{ opacity: 0, y: 8 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.45 }}
+          style={{ display: 'flex', gap: 12, alignItems: 'flex-start' }}
+        >
+          <AgentAvatar />
+          <p
+            style={{
+              color: 'rgba(232,232,232,0.78)',
+              fontSize: '0.9rem',
+              lineHeight: 1.75,
+              paddingTop: 3,
+            }}
+          >
+            {GREETING}
+          </p>
+        </motion.div>
+
+        {turns.map((turn, i) => (
             <motion.div
               key={i}
               initial={{ opacity: 0, y: 12 }}
@@ -146,20 +191,7 @@ function AskPanel() {
                 </div>
               </div>
               <div style={{ display: 'flex', gap: 12, alignItems: 'flex-start' }}>
-                <div
-                  style={{
-                    flexShrink: 0,
-                    width: 28,
-                    height: 28,
-                    borderRadius: 8,
-                    background: 'linear-gradient(135deg,#6366f1,#a855f7)',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                  }}
-                >
-                  <Sparkles size={14} color="#fff" />
-                </div>
+                <AgentAvatar />
                 <p
                   style={{
                     color: 'rgba(232,232,232,0.78)',
@@ -175,26 +207,13 @@ function AskPanel() {
             </motion.div>
           ))}
 
-          {loading && (
-            <div style={{ display: 'flex', gap: 12, alignItems: 'center' }}>
-              <div
-                style={{
-                  width: 28,
-                  height: 28,
-                  borderRadius: 8,
-                  background: 'linear-gradient(135deg,#6366f1,#a855f7)',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                }}
-              >
-                <Sparkles size={14} color="#fff" />
-              </div>
-              <ThinkingDots />
-            </div>
-          )}
-        </div>
-      )}
+        {loading && (
+          <div style={{ display: 'flex', gap: 12, alignItems: 'center' }}>
+            <AgentAvatar />
+            <ThinkingDots />
+          </div>
+        )}
+      </div>
 
       {/* Suggestions, only before the first question */}
       {turns.length === 0 && !loading && (
