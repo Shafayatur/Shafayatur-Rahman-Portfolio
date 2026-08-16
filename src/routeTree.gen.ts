@@ -23,6 +23,8 @@ import { Route as ApiPortfolioDataRouteImport } from './routes/api.portfolio.dat
 import { Route as ApiPortfolioContactRouteImport } from './routes/api.portfolio.contact'
 import { Route as ApiPortfolioCertificatesRouteImport } from './routes/api.portfolio.certificates'
 import { Route as ApiPortfolioAboutRouteImport } from './routes/api.portfolio.about'
+import { Route as ApiAssistantMatchRouteImport } from './routes/api.assistant.match'
+import { Route as ApiAssistantAskRouteImport } from './routes/api.assistant.ask'
 import { Route as ApiAdminUploadRouteImport } from './routes/api.admin.upload'
 import { Route as ApiAdminResumeRouteImport } from './routes/api.admin.resume'
 import { Route as ApiAdminLoginRouteImport } from './routes/api.admin.login'
@@ -102,6 +104,16 @@ const ApiPortfolioAboutRoute = ApiPortfolioAboutRouteImport.update({
   path: '/api/portfolio/about',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiAssistantMatchRoute = ApiAssistantMatchRouteImport.update({
+  id: '/api/assistant/match',
+  path: '/api/assistant/match',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiAssistantAskRoute = ApiAssistantAskRouteImport.update({
+  id: '/api/assistant/ask',
+  path: '/api/assistant/ask',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ApiAdminUploadRoute = ApiAdminUploadRouteImport.update({
   id: '/api/admin/upload',
   path: '/api/admin/upload',
@@ -150,6 +162,8 @@ export interface FileRoutesByFullPath {
   '/api/admin/login': typeof ApiAdminLoginRoute
   '/api/admin/resume': typeof ApiAdminResumeRoute
   '/api/admin/upload': typeof ApiAdminUploadRoute
+  '/api/assistant/ask': typeof ApiAssistantAskRoute
+  '/api/assistant/match': typeof ApiAssistantMatchRoute
   '/api/portfolio/about': typeof ApiPortfolioAboutRoute
   '/api/portfolio/certificates': typeof ApiPortfolioCertificatesRouteWithChildren
   '/api/portfolio/contact': typeof ApiPortfolioContactRoute
@@ -172,6 +186,8 @@ export interface FileRoutesByTo {
   '/api/admin/login': typeof ApiAdminLoginRoute
   '/api/admin/resume': typeof ApiAdminResumeRoute
   '/api/admin/upload': typeof ApiAdminUploadRoute
+  '/api/assistant/ask': typeof ApiAssistantAskRoute
+  '/api/assistant/match': typeof ApiAssistantMatchRoute
   '/api/portfolio/about': typeof ApiPortfolioAboutRoute
   '/api/portfolio/certificates': typeof ApiPortfolioCertificatesRouteWithChildren
   '/api/portfolio/contact': typeof ApiPortfolioContactRoute
@@ -196,6 +212,8 @@ export interface FileRoutesById {
   '/api/admin/login': typeof ApiAdminLoginRoute
   '/api/admin/resume': typeof ApiAdminResumeRoute
   '/api/admin/upload': typeof ApiAdminUploadRoute
+  '/api/assistant/ask': typeof ApiAssistantAskRoute
+  '/api/assistant/match': typeof ApiAssistantMatchRoute
   '/api/portfolio/about': typeof ApiPortfolioAboutRoute
   '/api/portfolio/certificates': typeof ApiPortfolioCertificatesRouteWithChildren
   '/api/portfolio/contact': typeof ApiPortfolioContactRoute
@@ -221,6 +239,8 @@ export interface FileRouteTypes {
     | '/api/admin/login'
     | '/api/admin/resume'
     | '/api/admin/upload'
+    | '/api/assistant/ask'
+    | '/api/assistant/match'
     | '/api/portfolio/about'
     | '/api/portfolio/certificates'
     | '/api/portfolio/contact'
@@ -243,6 +263,8 @@ export interface FileRouteTypes {
     | '/api/admin/login'
     | '/api/admin/resume'
     | '/api/admin/upload'
+    | '/api/assistant/ask'
+    | '/api/assistant/match'
     | '/api/portfolio/about'
     | '/api/portfolio/certificates'
     | '/api/portfolio/contact'
@@ -266,6 +288,8 @@ export interface FileRouteTypes {
     | '/api/admin/login'
     | '/api/admin/resume'
     | '/api/admin/upload'
+    | '/api/assistant/ask'
+    | '/api/assistant/match'
     | '/api/portfolio/about'
     | '/api/portfolio/certificates'
     | '/api/portfolio/contact'
@@ -288,6 +312,8 @@ export interface RootRouteChildren {
   ApiAdminLoginRoute: typeof ApiAdminLoginRoute
   ApiAdminResumeRoute: typeof ApiAdminResumeRoute
   ApiAdminUploadRoute: typeof ApiAdminUploadRoute
+  ApiAssistantAskRoute: typeof ApiAssistantAskRoute
+  ApiAssistantMatchRoute: typeof ApiAssistantMatchRoute
   ApiPortfolioAboutRoute: typeof ApiPortfolioAboutRoute
   ApiPortfolioCertificatesRoute: typeof ApiPortfolioCertificatesRouteWithChildren
   ApiPortfolioContactRoute: typeof ApiPortfolioContactRoute
@@ -396,6 +422,20 @@ declare module '@tanstack/react-router' {
       path: '/api/portfolio/about'
       fullPath: '/api/portfolio/about'
       preLoaderRoute: typeof ApiPortfolioAboutRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/assistant/match': {
+      id: '/api/assistant/match'
+      path: '/api/assistant/match'
+      fullPath: '/api/assistant/match'
+      preLoaderRoute: typeof ApiAssistantMatchRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/assistant/ask': {
+      id: '/api/assistant/ask'
+      path: '/api/assistant/ask'
+      fullPath: '/api/assistant/ask'
+      preLoaderRoute: typeof ApiAssistantAskRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/api/admin/upload': {
@@ -520,6 +560,8 @@ const rootRouteChildren: RootRouteChildren = {
   ApiAdminLoginRoute: ApiAdminLoginRoute,
   ApiAdminResumeRoute: ApiAdminResumeRoute,
   ApiAdminUploadRoute: ApiAdminUploadRoute,
+  ApiAssistantAskRoute: ApiAssistantAskRoute,
+  ApiAssistantMatchRoute: ApiAssistantMatchRoute,
   ApiPortfolioAboutRoute: ApiPortfolioAboutRoute,
   ApiPortfolioCertificatesRoute: ApiPortfolioCertificatesRouteWithChildren,
   ApiPortfolioContactRoute: ApiPortfolioContactRoute,

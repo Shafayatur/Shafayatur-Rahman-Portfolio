@@ -10,6 +10,7 @@ import { SkillsSection } from '@/components/portfolio/Skills'
 import { CertificatesSection } from '@/components/portfolio/Certificates'
 import { ExperienceSection } from '@/components/portfolio/Experience'
 import { ContactSection } from '@/components/portfolio/Contact'
+import { AssistantSection } from '@/components/portfolio/Assistant'
 import { getPortfolioData } from '@/lib/portfolio-data'
 import { buildHomeMeta, buildPersonJsonLd } from '@/lib/seo'
 
@@ -72,6 +73,11 @@ function PortfolioPage() {
 
           <div className="gradient-divider" />
           <ExperienceSection experience={experience} />
+
+          {/* Sits directly above Contact: the assistant's copy points visitors
+              to the contact form below it for anything it can't answer. */}
+          <div className="gradient-divider" />
+          <AssistantSection />
 
           <div className="gradient-divider" />
           <ContactSection about={about} />

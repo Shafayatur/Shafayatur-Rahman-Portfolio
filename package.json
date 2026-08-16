@@ -30,6 +30,7 @@
     "tailwind-merge": "^3.0.2",
     "tailwindcss": "^4.0.6",
     "tailwindcss-animate": "^1.0.7",
+    "unpdf": "^1.8.1",
     "vite-tsconfig-paths": "^6.0.2",
     "zod": "^4.3.5"
   },

@@ -386,15 +386,44 @@ export async function setSettings(settings: Partial<Settings>): Promise<void> {
 // ─── Resume ───────────────────────────────────────────────────────────────────
 
 export async function getResume(): Promise<Blob | null> {
-  return store().get('resume', { type: 'blob' })
+  return (await store().get('resume', { type: 'blob' })) as Blob | null
 }
 
 export async function setResume(data: ArrayBuffer): Promise<void> {
   await store().set('resume', data)
   await setSettings({ hasResume: true })
+  // The cached text belongs to the previous file — drop it so the next reader
+  // re-extracts from the new upload rather than answering from a stale resume.
+  await deleteKey('resume_text')
 }
 
 export async function deleteResume(): Promise<void> {
   await store().delete('resume')
   await setSettings({ hasResume: false })
+  await deleteKey('resume_text')
+}
+
+/** Raw PDF bytes, for text extraction. Returns null when nothing is uploaded. */
+export async function getResumeBytes(): Promise<Uint8Array | null> {
+  const record = await getJSON<{ base64: string }>('resume_file')
+  if (!record?.base64) return null
+  return new Uint8Array(Buffer.from(record.base64, 'base64'))
+}
+
+export interface ResumeText {
+  text: string
+  pages: number
+  extractedAt: string
+}
+
+/**
+ * Extracted resume text, cached so the PDF is only parsed once per upload
+ * rather than on every visitor question.
+ */
+export async function getResumeText(): Promise<ResumeText | null> {
+  return getJSON<ResumeText>('resume_text')
+}
+
+export async function setResumeText(value: ResumeText): Promise<void> {
+  await setJSON('resume_text', value)
 }
