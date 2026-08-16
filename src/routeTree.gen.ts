@@ -9,13 +9,11 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as ResumeRouteImport } from './routes/resume'
-import { Route as ProjectsRouteImport } from './routes/projects'
-import { Route as ContactRouteImport } from './routes/contact'
+import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
+import { Route as RobotsDottxtRouteImport } from './routes/robots[.]txt'
 import { Route as AdminRouteImport } from './routes/admin'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AdminIndexRouteImport } from './routes/admin.index'
-import { Route as BlogSlugRouteImport } from './routes/blog/$slug'
 import { Route as AdminDashboardRouteImport } from './routes/admin.dashboard'
 import { Route as ApiPortfolioSkillsRouteImport } from './routes/api.portfolio.skills'
 import { Route as ApiPortfolioProjectsRouteImport } from './routes/api.portfolio.projects'
@@ -33,19 +31,14 @@ import { Route as ApiPortfolioMessagesIdRouteImport } from './routes/api.portfol
 import { Route as ApiPortfolioExperienceIdRouteImport } from './routes/api.portfolio.experience.$id'
 import { Route as ApiPortfolioCertificatesIdRouteImport } from './routes/api.portfolio.certificates.$id'
 
-const ResumeRoute = ResumeRouteImport.update({
-  id: '/resume',
-  path: '/resume',
+const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
+  id: '/sitemap.xml',
+  path: '/sitemap.xml',
   getParentRoute: () => rootRouteImport,
 } as any)
-const ProjectsRoute = ProjectsRouteImport.update({
-  id: '/projects',
-  path: '/projects',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ContactRoute = ContactRouteImport.update({
-  id: '/contact',
-  path: '/contact',
+const RobotsDottxtRoute = RobotsDottxtRouteImport.update({
+  id: '/robots.txt',
+  path: '/robots.txt',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AdminRoute = AdminRouteImport.update({
@@ -62,11 +55,6 @@ const AdminIndexRoute = AdminIndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => AdminRoute,
-} as any)
-const BlogSlugRoute = BlogSlugRouteImport.update({
-  id: '/blog/$slug',
-  path: '/blog/$slug',
-  getParentRoute: () => rootRouteImport,
 } as any)
 const AdminDashboardRoute = AdminDashboardRouteImport.update({
   id: '/dashboard',
@@ -155,11 +143,9 @@ const ApiPortfolioCertificatesIdRoute =
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/admin': typeof AdminRouteWithChildren
-  '/contact': typeof ContactRoute
-  '/projects': typeof ProjectsRoute
-  '/resume': typeof ResumeRoute
+  '/robots.txt': typeof RobotsDottxtRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/admin/dashboard': typeof AdminDashboardRoute
-  '/blog/$slug': typeof BlogSlugRoute
   '/admin/': typeof AdminIndexRoute
   '/api/admin/login': typeof ApiAdminLoginRoute
   '/api/admin/resume': typeof ApiAdminResumeRoute
@@ -179,11 +165,9 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/contact': typeof ContactRoute
-  '/projects': typeof ProjectsRoute
-  '/resume': typeof ResumeRoute
+  '/robots.txt': typeof RobotsDottxtRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/admin/dashboard': typeof AdminDashboardRoute
-  '/blog/$slug': typeof BlogSlugRoute
   '/admin': typeof AdminIndexRoute
   '/api/admin/login': typeof ApiAdminLoginRoute
   '/api/admin/resume': typeof ApiAdminResumeRoute
@@ -205,11 +189,9 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/admin': typeof AdminRouteWithChildren
-  '/contact': typeof ContactRoute
-  '/projects': typeof ProjectsRoute
-  '/resume': typeof ResumeRoute
+  '/robots.txt': typeof RobotsDottxtRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/admin/dashboard': typeof AdminDashboardRoute
-  '/blog/$slug': typeof BlogSlugRoute
   '/admin/': typeof AdminIndexRoute
   '/api/admin/login': typeof ApiAdminLoginRoute
   '/api/admin/resume': typeof ApiAdminResumeRoute
@@ -232,11 +214,9 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/admin'
-    | '/contact'
-    | '/projects'
-    | '/resume'
+    | '/robots.txt'
+    | '/sitemap.xml'
     | '/admin/dashboard'
-    | '/blog/$slug'
     | '/admin/'
     | '/api/admin/login'
     | '/api/admin/resume'
@@ -256,11 +236,9 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
-    | '/contact'
-    | '/projects'
-    | '/resume'
+    | '/robots.txt'
+    | '/sitemap.xml'
     | '/admin/dashboard'
-    | '/blog/$slug'
     | '/admin'
     | '/api/admin/login'
     | '/api/admin/resume'
@@ -281,11 +259,9 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/admin'
-    | '/contact'
-    | '/projects'
-    | '/resume'
+    | '/robots.txt'
+    | '/sitemap.xml'
     | '/admin/dashboard'
-    | '/blog/$slug'
     | '/admin/'
     | '/api/admin/login'
     | '/api/admin/resume'
@@ -307,10 +283,8 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AdminRoute: typeof AdminRouteWithChildren
-  ContactRoute: typeof ContactRoute
-  ProjectsRoute: typeof ProjectsRoute
-  ResumeRoute: typeof ResumeRoute
-  BlogSlugRoute: typeof BlogSlugRoute
+  RobotsDottxtRoute: typeof RobotsDottxtRoute
+  SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   ApiAdminLoginRoute: typeof ApiAdminLoginRoute
   ApiAdminResumeRoute: typeof ApiAdminResumeRoute
   ApiAdminUploadRoute: typeof ApiAdminUploadRoute
@@ -326,25 +300,18 @@ export interface RootRouteChildren {
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/resume': {
-      id: '/resume'
-      path: '/resume'
-      fullPath: '/resume'
-      preLoaderRoute: typeof ResumeRouteImport
+    '/sitemap.xml': {
+      id: '/sitemap.xml'
+      path: '/sitemap.xml'
+      fullPath: '/sitemap.xml'
+      preLoaderRoute: typeof SitemapDotxmlRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/projects': {
-      id: '/projects'
-      path: '/projects'
-      fullPath: '/projects'
-      preLoaderRoute: typeof ProjectsRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/contact': {
-      id: '/contact'
-      path: '/contact'
-      fullPath: '/contact'
-      preLoaderRoute: typeof ContactRouteImport
+    '/robots.txt': {
+      id: '/robots.txt'
+      path: '/robots.txt'
+      fullPath: '/robots.txt'
+      preLoaderRoute: typeof RobotsDottxtRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/admin': {
@@ -367,13 +334,6 @@ declare module '@tanstack/react-router' {
       fullPath: '/admin/'
       preLoaderRoute: typeof AdminIndexRouteImport
       parentRoute: typeof AdminRoute
-    }
-    '/blog/$slug': {
-      id: '/blog/$slug'
-      path: '/blog/$slug'
-      fullPath: '/blog/$slug'
-      preLoaderRoute: typeof BlogSlugRouteImport
-      parentRoute: typeof rootRouteImport
     }
     '/admin/dashboard': {
       id: '/admin/dashboard'
@@ -555,10 +515,8 @@ const ApiPortfolioProjectsRouteWithChildren =
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AdminRoute: AdminRouteWithChildren,
-  ContactRoute: ContactRoute,
-  ProjectsRoute: ProjectsRoute,
-  ResumeRoute: ResumeRoute,
-  BlogSlugRoute: BlogSlugRoute,
+  RobotsDottxtRoute: RobotsDottxtRoute,
+  SitemapDotxmlRoute: SitemapDotxmlRoute,
   ApiAdminLoginRoute: ApiAdminLoginRoute,
   ApiAdminResumeRoute: ApiAdminResumeRoute,
   ApiAdminUploadRoute: ApiAdminUploadRoute,

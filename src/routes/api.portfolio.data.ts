@@ -44,16 +44,18 @@ export const Route = createFileRoute('/api/portfolio/data')({
       },
 
       POST: async ({ request }) => {
-        // Seed endpoint – requires admin OR first run
+        // Seeding overwrites every section, so it always requires admin auth.
+        // The old "admin OR first run" rule was unsafe: getSettings() reports
+        // `seeded: false` whenever a read fails, so a transient store outage
+        // would have let an anonymous POST overwrite real content with demo data.
         const isAdmin = await requireAdmin(request)
-        const settings = await getSettings()
-
-        const url = new URL(request.url)
-        const force = url.searchParams.get('force') === 'true'
-
-        if (!isAdmin && settings.seeded) {
+        if (!isAdmin) {
           return Response.json({ error: 'Unauthorized' }, { status: 401 })
         }
+
+        const settings = await getSettings()
+        const url = new URL(request.url)
+        const force = url.searchParams.get('force') === 'true'
 
         if (settings.seeded && !force) {
           return Response.json({ message: 'Already seeded', seeded: true })

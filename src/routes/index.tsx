@@ -1,6 +1,5 @@
-'use client'
 import { createFileRoute } from '@tanstack/react-router'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { Preloader } from '@/components/portfolio/Preloader'
 import { CustomCursor } from '@/components/portfolio/CustomCursor'
 import { Navbar } from '@/components/portfolio/Navbar'
@@ -11,84 +10,73 @@ import { SkillsSection } from '@/components/portfolio/Skills'
 import { CertificatesSection } from '@/components/portfolio/Certificates'
 import { ExperienceSection } from '@/components/portfolio/Experience'
 import { ContactSection } from '@/components/portfolio/Contact'
-import type { About, Certificate, Experience, Project, Settings, SkillCategory } from '@/lib/db'
+import { getPortfolioData } from '@/lib/portfolio-data'
+import { buildHomeMeta, buildPersonJsonLd } from '@/lib/seo'
 
 export const Route = createFileRoute('/')({
+  loader: () => getPortfolioData(),
+  head: ({ loaderData }) => {
+    const about = loaderData?.about ?? null
+    const siteUrl = loaderData?.siteUrl ?? ''
+
+    return {
+      meta: buildHomeMeta({ about, siteUrl }),
+      links: siteUrl ? [{ rel: 'canonical', href: siteUrl }] : [],
+      scripts: [
+        {
+          type: 'application/ld+json',
+          children: buildPersonJsonLd({
+            about,
+            siteUrl,
+            skills: loaderData?.skills ?? [],
+            projects: loaderData?.projects ?? [],
+          }),
+        },
+      ],
+    }
+  },
   component: PortfolioPage,
 })
 
-interface PortfolioData {
-  projects: Project[]
-  skills: SkillCategory[]
-  about: About | null
-  experience: Experience[]
-  certificates: Certificate[]
-  settings: Settings
-}
-
 function PortfolioPage() {
+  const { projects, skills, about, experience, certificates, settings } = Route.useLoaderData()
   const [preloaderDone, setPreloaderDone] = useState(false)
-  const [data, setData] = useState<PortfolioData>({
-    projects: [],
-    skills: [],
-    about: null,
-    experience: [],
-    certificates: [],
-    settings: { hasResume: false, seeded: false, siteTitle: 'Portfolio' },
-  })
-
-  useEffect(() => {
-    fetch('/api/portfolio/data')
-      .then((r) => r.json())
-      .then(async (d: PortfolioData) => {
-        // Auto-seed if not seeded yet
-        if (!d.settings?.seeded) {
-          const seedRes = await fetch('/api/portfolio/data', { method: 'POST' })
-          if (seedRes.ok) {
-            const seeded = await fetch('/api/portfolio/data').then((r) => r.json())
-            setData(seeded)
-          } else {
-            setData(d)
-          }
-        } else {
-          setData(d)
-        }
-      })
-      .catch(() => {})
-  }, [])
 
   return (
     <>
       <CustomCursor />
       <Preloader onComplete={() => setPreloaderDone(true)} />
 
-      {preloaderDone && (
-        <div style={{ opacity: 1, transition: 'opacity 0.5s' }}>
-          <Navbar hasResume={data.settings?.hasResume ?? false} />
+      {/* Rendered unconditionally and fully visible so the real content ships in
+          the SSR HTML — the preloader is an opaque fixed overlay (z-index 9999)
+          that hides it from the viewer without hiding it from crawlers.
+          Re-keying on `preloaderDone` remounts the tree once the overlay lifts,
+          so the entry animations play for the viewer instead of behind it. */}
+      <div key={preloaderDone ? 'revealed' : 'loading'}>
+        <Navbar hasResume={settings?.hasResume ?? false} />
 
-          <main>
-            <Hero about={data.about} />
+        <main>
+          <Hero about={about} />
 
-            <div className="gradient-divider" />
-            <AboutSection about={data.about} />
+          <div className="gradient-divider" />
+          <AboutSection about={about} />
 
-            <div className="gradient-divider" />
-            <ProjectsSection projects={data.projects} />
+          <div className="gradient-divider" />
+          <ProjectsSection projects={projects} />
 
-            <div className="gradient-divider" />
-            <SkillsSection skills={data.skills} />
+          <div className="gradient-divider" />
+          <SkillsSection skills={skills} />
 
-            <div className="gradient-divider" />
-            <CertificatesSection certificates={data.certificates} />
+          <div className="gradient-divider" />
+          <CertificatesSection certificates={certificates} />
 
-            <div className="gradient-divider" />
-            <ExperienceSection experience={data.experience} />
+          <div className="gradient-divider" />
+          <ExperienceSection experience={experience} />
 
-            <div className="gradient-divider" />
-            <ContactSection about={data.about} />
-          </main>
-        </div>
-      )}
+          <div className="gradient-divider" />
+          <ContactSection about={about} />
+        </main>
+      </div>
     </>
   )
 }
