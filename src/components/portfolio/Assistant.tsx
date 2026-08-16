@@ -37,7 +37,7 @@ const SUGGESTIONS = [
  * varies, and shows instantly instead of after a round-trip.
  */
 const GREETING =
-  "Hey — I'm Shafayatur's agent. I've read his resume and everything he's built, so you can get straight answers here instead of waiting on a reply. Ask me anything about his work, or paste a job post in the other tab."
+  "Shafayatur's agent. I know the work, the projects, and the stack. Ask me anything. Got a JD? Throw it to the next tab."
 
 const inputStyle: React.CSSProperties = {
   width: '100%',
@@ -167,45 +167,45 @@ function AskPanel() {
         </motion.div>
 
         {turns.map((turn, i) => (
-            <motion.div
-              key={i}
-              initial={{ opacity: 0, y: 12 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.35 }}
-              style={{ display: 'flex', flexDirection: 'column', gap: 10 }}
-            >
-              <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
-                <div
-                  style={{
-                    maxWidth: '80%',
-                    padding: '10px 16px',
-                    borderRadius: '12px 12px 2px 12px',
-                    background: 'rgba(99,102,241,0.14)',
-                    border: '1px solid rgba(99,102,241,0.22)',
-                    color: '#e8e8e8',
-                    fontSize: '0.88rem',
-                    lineHeight: 1.6,
-                  }}
-                >
-                  {turn.question}
-                </div>
+          <motion.div
+            key={i}
+            initial={{ opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.35 }}
+            style={{ display: 'flex', flexDirection: 'column', gap: 10 }}
+          >
+            <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+              <div
+                style={{
+                  maxWidth: '80%',
+                  padding: '10px 16px',
+                  borderRadius: '12px 12px 2px 12px',
+                  background: 'rgba(99,102,241,0.14)',
+                  border: '1px solid rgba(99,102,241,0.22)',
+                  color: '#e8e8e8',
+                  fontSize: '0.88rem',
+                  lineHeight: 1.6,
+                }}
+              >
+                {turn.question}
               </div>
-              <div style={{ display: 'flex', gap: 12, alignItems: 'flex-start' }}>
-                <AgentAvatar />
-                <p
-                  style={{
-                    color: 'rgba(232,232,232,0.78)',
-                    fontSize: '0.9rem',
-                    lineHeight: 1.75,
-                    paddingTop: 3,
-                    whiteSpace: 'pre-wrap',
-                  }}
-                >
-                  {turn.answer}
-                </p>
-              </div>
-            </motion.div>
-          ))}
+            </div>
+            <div style={{ display: 'flex', gap: 12, alignItems: 'flex-start' }}>
+              <AgentAvatar />
+              <p
+                style={{
+                  color: 'rgba(232,232,232,0.78)',
+                  fontSize: '0.9rem',
+                  lineHeight: 1.75,
+                  paddingTop: 3,
+                  whiteSpace: 'pre-wrap',
+                }}
+              >
+                {turn.answer}
+              </p>
+            </div>
+          </motion.div>
+        ))}
 
         {loading && (
           <div style={{ display: 'flex', gap: 12, alignItems: 'center' }}>
